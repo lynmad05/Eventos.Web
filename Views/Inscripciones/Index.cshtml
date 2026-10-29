@@ -1,35 +1,68 @@
 @model IEnumerable<Inscripcion>
-@{ ViewData["Title"] = "Inscripciones"; }
+@{
+    ViewData["Title"] = "Inscripciones";
+    var lista = Model.ToList();
+}
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Inscripciones</h1>
-    <a asp-action="Create" class="btn btn-primary">Nueva inscripción</a>
+<div class="page-header">
+    <div>
+        <h1>Inscripciones</h1>
+        <p>Historial de inscripciones y su estado.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary"><i data-lucide="plus"></i> Nueva inscripción</a>
 </div>
 
-<table class="table table-hover align-middle">
-    <thead class="table-light">
-        <tr><th>Evento</th><th>Asistente</th><th>Fecha</th><th>Estado</th><th></th></tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
+<div class="card-soft flush">
+    @if (lista.Count == 0)
     {
-        <tr>
-            <td>@item.Evento?.Titulo</td>
-            <td>@item.Asistente?.Nombres</td>
-            <td>@item.FechaInscripcion.ToString("dd/MM/yyyy HH:mm")</td>
-            <td>
-                <span class="badge @(item.Estado == "Confirmada" ? "bg-success" : "bg-secondary")">@item.Estado</span>
-            </td>
-            <td class="text-end">
-                @if (item.Estado == "Confirmada")
-                {
-                    <form asp-action="Cancelar" asp-route-id="@item.Id" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('¿Cancelar esta inscripción?');">Cancelar</button>
-                    </form>
-                }
-            </td>
-        </tr>
+        <div class="empty-state">
+            <i data-lucide="clipboard-list"></i>
+            <p class="mb-0">Aún no hay inscripciones registradas.</p>
+        </div>
     }
-    </tbody>
-</table>
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-modern">
+                <thead>
+                    <tr><th>Evento</th><th>Asistente</th><th>Fecha de inscripción</th><th>Estado</th><th class="text-end">Acciones</th></tr>
+                </thead>
+                <tbody>
+                @foreach (var item in lista)
+                {
+                    var confirmada = item.Estado == "Confirmada";
+                    <tr>
+                        <td>
+                            <div class="cell-title">@item.Evento?.Titulo</div>
+                            <div class="cell-sub"><i data-lucide="calendar"></i> @item.Evento?.Fecha.ToString("dd/MM/yyyy HH:mm")</div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="avatar">@item.Asistente?.Nombres.Substring(0, 1).ToUpper()</div>
+                                <span>@item.Asistente?.Nombres</span>
+                            </div>
+                        </td>
+                        <td>@item.FechaInscripcion.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <span class="badge-soft @(confirmada ? "success" : "neutral")">
+                                <i data-lucide="@(confirmada ? "circle-check" : "circle-x")"></i> @item.Estado
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            @if (confirmada)
+                            {
+                                <form asp-action="Cancelar" asp-route-id="@item.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('¿Cancelar esta inscripción?');">
+                                        <i data-lucide="x-circle"></i> Cancelar
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

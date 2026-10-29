@@ -1,56 +1,92 @@
 @model IEnumerable<Evento>
-@{ ViewData["Title"] = "Eventos"; }
+@{
+    ViewData["Title"] = "Eventos";
+    var lista = Model.ToList();
+}
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Eventos</h1>
-    <a asp-action="Create" class="btn btn-primary">Nuevo evento</a>
+<div class="page-header">
+    <div>
+        <h1>Eventos</h1>
+        <p>Administra los eventos activos y revisa sus cupos disponibles.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary"><i data-lucide="plus"></i> Nuevo evento</a>
 </div>
 
-<form method="get" class="row g-2 mb-3">
-    <div class="col-md-4">
+<div class="card-soft mb-3 py-3">
+    <form method="get" class="filter-bar">
+        <i data-lucide="filter" class="text-muted"></i>
         <select name="categoriaId" class="form-select" asp-items="(SelectList)ViewBag.Categorias" onchange="this.form.submit()">
             <option value="">Todas las categorías</option>
         </select>
-    </div>
-</form>
+        <a asp-action="Index" class="btn btn-light">Limpiar</a>
+    </form>
+</div>
 
-<table class="table table-hover align-middle">
-    <thead class="table-light">
-        <tr>
-            <th>Título</th>
-            <th>Categoría</th>
-            <th>Fecha</th>
-            <th>Lugar</th>
-            <th>Modalidad</th>
-            <th class="text-end">Precio</th>
-            <th class="text-center">Aforo</th>
-            <th class="text-center">Inscritos</th>
-            <th class="text-center">Cupos</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
+<div class="card-soft flush">
+    @if (lista.Count == 0)
     {
-        var inscritos = item.Inscripciones.Count;
-        <tr>
-            <td>@item.Titulo</td>
-            <td>@item.Categoria?.Nombre</td>
-            <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
-            <td>@item.Lugar</td>
-            <td>@item.Modalidad</td>
-            <td class="text-end">S/ @item.Precio.ToString("N2")</td>
-            <td class="text-center">@item.Aforo</td>
-            <td class="text-center">@inscritos</td>
-            <td class="text-center">
-                <span class="badge @(item.Aforo - inscritos > 0 ? "bg-success" : "bg-danger")">@(item.Aforo - inscritos)</span>
-            </td>
-            <td class="text-end text-nowrap">
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Detalle</a>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
-            </td>
-        </tr>
+        <div class="empty-state">
+            <i data-lucide="calendar-x"></i>
+            <p class="mb-0">No hay eventos para mostrar.</p>
+        </div>
     }
-    </tbody>
-</table>
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-modern">
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Categoría</th>
+                        <th>Fecha</th>
+                        <th>Modalidad</th>
+                        <th>Precio</th>
+                        <th>Aforo</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in lista)
+                {
+                    var inscritos = item.Inscripciones.Count;
+                    var cupos = item.Aforo - inscritos;
+                    var pct = item.Aforo == 0 ? 0 : inscritos * 100 / item.Aforo;
+                    <tr>
+                        <td>
+                            <div class="cell-title">@item.Titulo</div>
+                            <div class="cell-sub"><i data-lucide="map-pin"></i> @item.Lugar</div>
+                        </td>
+                        <td><span class="badge-soft brand">@item.Categoria?.Nombre</span></td>
+                        <td>
+                            <div class="cell-title">@item.Fecha.ToString("dd/MM/yyyy")</div>
+                            <div class="cell-sub"><i data-lucide="clock"></i> @item.Fecha.ToString("HH:mm")</div>
+                        </td>
+                        <td>
+                            <span class="badge-soft @(item.Modalidad == "Virtual" ? "info" : "neutral")">
+                                <i data-lucide="@(item.Modalidad == "Virtual" ? "monitor" : "building-2")"></i> @item.Modalidad
+                            </span>
+                        </td>
+                        <td class="cell-title">@(item.Precio == 0 ? "Gratis" : "S/ " + item.Precio.ToString("N2"))</td>
+                        <td>
+                            <div class="aforo">
+                                <div class="meta">
+                                    <span>@inscritos de @item.Aforo</span>
+                                    <span>@cupos libres</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar @(cupos <= 0 ? "full" : "")" style="width:@pct%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-icon" title="Ver detalle"><i data-lucide="eye"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-icon" title="Editar"><i data-lucide="pencil"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-icon danger" title="Eliminar"><i data-lucide="trash-2"></i></a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

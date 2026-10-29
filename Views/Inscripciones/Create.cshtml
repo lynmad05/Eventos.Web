@@ -1,26 +1,37 @@
 @model Inscripcion
 @{ ViewData["Title"] = "Nueva inscripción"; }
 
-<h1 class="h3 mb-3">Nueva inscripción</h1>
+<div class="page-header">
+    <div>
+        <h1>Nueva inscripción</h1>
+        <p>Selecciona el evento y el asistente.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-light"><i data-lucide="arrow-left"></i> Volver</a>
+</div>
 
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row g-3">
-        <div class="col-md-6">
-            <label asp-for="EventoId" class="form-label"></label>
-            <select asp-for="EventoId" class="form-select" asp-items="(SelectList)ViewBag.Eventos"></select>
-            <span asp-validation-for="EventoId" class="text-danger"></span>
+<div class="card-soft form-card">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="EventoId" class="form-label"></label>
+                <select asp-for="EventoId" class="form-select" asp-items="(SelectList)ViewBag.Eventos"></select>
+                <span asp-validation-for="EventoId" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="AsistenteId" class="form-label"></label>
+                <select asp-for="AsistenteId" class="form-select" asp-items="(SelectList)ViewBag.Asistentes"></select>
+                <span asp-validation-for="AsistenteId" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label asp-for="AsistenteId" class="form-label"></label>
-            <select asp-for="AsistenteId" class="form-select" asp-items="(SelectList)ViewBag.Asistentes"></select>
-            <span asp-validation-for="AsistenteId" class="text-danger"></span>
+        <div class="form-hint mt-3">
+            Se valida que el evento no haya pasado, que el asistente no esté inscrito y que el aforo no esté completo.
         </div>
-    </div>
-    <div class="mt-4">
-        <button type="submit" class="btn btn-primary">Inscribir</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
-    </div>
-</form>
+        <div class="d-flex gap-2 mt-4 pt-3 border-top">
+            <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Inscribir</button>
+            <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        </div>
+    </form>
+</div>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

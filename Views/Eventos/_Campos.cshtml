@@ -1,11 +1,12 @@
 @model Evento
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<div class="row g-3">
+<div class="card-title-sm">Información general</div>
+<div class="row g-3 mb-4">
     <div class="col-md-8">
         <label asp-for="Titulo" class="form-label"></label>
-        <input asp-for="Titulo" class="form-control" />
+        <input asp-for="Titulo" class="form-control" placeholder="Ej. Conferencia de Inteligencia Artificial" />
         <span asp-validation-for="Titulo" class="text-danger"></span>
     </div>
     <div class="col-md-4">
@@ -13,32 +14,40 @@
         <select asp-for="CategoriaId" class="form-select" asp-items="(SelectList)ViewBag.Categorias"></select>
         <span asp-validation-for="CategoriaId" class="text-danger"></span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label asp-for="Fecha" class="form-label"></label>
         <input asp-for="Fecha" type="datetime-local" class="form-control" />
         <span asp-validation-for="Fecha" class="text-danger"></span>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <label asp-for="Lugar" class="form-label"></label>
-        <input asp-for="Lugar" class="form-control" />
+        <input asp-for="Lugar" class="form-control" placeholder="Ej. Auditorio principal" />
         <span asp-validation-for="Lugar" class="text-danger"></span>
     </div>
-    <div class="col-md-6">
-        <label asp-for="Aforo" class="form-label"></label>
-        <input asp-for="Aforo" class="form-control" />
-        <span asp-validation-for="Aforo" class="text-danger"></span>
-    </div>
-    <div class="col-md-6">
-        <label asp-for="Precio" class="form-label"></label>
-        <input asp-for="Precio" class="form-control" />
-        <span asp-validation-for="Precio" class="text-danger"></span>
-    </div>
-    <div class="col-md-6">
+</div>
+
+<div class="card-title-sm">Capacidad y precio</div>
+<div class="row g-3">
+    <div class="col-md-4">
         <label asp-for="Modalidad" class="form-label"></label>
         <select asp-for="Modalidad" class="form-select">
             <option value="Presencial">Presencial</option>
             <option value="Virtual">Virtual</option>
         </select>
         <span asp-validation-for="Modalidad" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Aforo" class="form-label"></label>
+        <input asp-for="Aforo" class="form-control" />
+        <div class="form-hint">Entre 1 y 5000 personas.</div>
+        <span asp-validation-for="Aforo" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Precio" class="form-label"></label>
+        <div class="input-group">
+            <span class="input-group-text">S/</span>
+            <input asp-for="Precio" class="form-control" />
+        </div>
+        <span asp-validation-for="Precio" class="text-danger"></span>
     </div>
 </div>

@@ -1,17 +1,45 @@
 @model Evento
-@{ ViewData["Title"] = "Detalle del evento"; }
+@{
+    ViewData["Title"] = "Detalle del evento";
+    var inscritos = Model.Inscripciones.Count;
+}
 
-<h1 class="h3 mb-3">@Model.Titulo</h1>
+<div class="page-header">
+    <div>
+        <h1>@Model.Titulo</h1>
+        <p><span class="badge-soft brand">@Model.Categoria?.Nombre</span></p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Index" class="btn btn-light"><i data-lucide="arrow-left"></i> Volver</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i data-lucide="pencil"></i> Editar</a>
+    </div>
+</div>
 
-<dl class="row">
-    <dt class="col-sm-3">Categoría</dt><dd class="col-sm-9">@Model.Categoria?.Nombre</dd>
-    <dt class="col-sm-3">Fecha</dt><dd class="col-sm-9">@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</dd>
-    <dt class="col-sm-3">Lugar</dt><dd class="col-sm-9">@Model.Lugar</dd>
-    <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">S/ @Model.Precio.ToString("N2")</dd>
-    <dt class="col-sm-3">Aforo</dt><dd class="col-sm-9">@Model.Aforo</dd>
-    <dt class="col-sm-3">Inscritos</dt><dd class="col-sm-9">@Model.Inscripciones.Count</dd>
-    <dt class="col-sm-3">Cupos disponibles</dt><dd class="col-sm-9">@(Model.Aforo - Model.Inscripciones.Count)</dd>
-</dl>
-
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
-<a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+<div class="card-soft">
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="label"><i data-lucide="calendar"></i> Fecha</div>
+            <div class="value">@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</div>
+        </div>
+        <div class="detail-item">
+            <div class="label"><i data-lucide="map-pin"></i> Lugar</div>
+            <div class="value">@Model.Lugar</div>
+        </div>
+        <div class="detail-item">
+            <div class="label"><i data-lucide="monitor"></i> Modalidad</div>
+            <div class="value">@Model.Modalidad</div>
+        </div>
+        <div class="detail-item">
+            <div class="label"><i data-lucide="banknote"></i> Precio</div>
+            <div class="value">@(Model.Precio == 0 ? "Gratis" : "S/ " + Model.Precio.ToString("N2"))</div>
+        </div>
+        <div class="detail-item">
+            <div class="label"><i data-lucide="users"></i> Inscritos</div>
+            <div class="value">@inscritos de @Model.Aforo</div>
+        </div>
+        <div class="detail-item">
+            <div class="label"><i data-lucide="ticket"></i> Cupos disponibles</div>
+            <div class="value">@(Model.Aforo - inscritos)</div>
+        </div>
+    </div>
+</div>
