@@ -21,6 +21,11 @@
             <input asp-for="Correo" class="form-control" />
             <span asp-validation-for="Correo" class="text-danger"></span>
         </div>
+        <div class="col-md-6">
+            <label asp-for="Telefono" class="form-label"></label>
+            <input asp-for="Telefono" class="form-control" maxlength="9" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
     </div>
     <div class="mt-4">
         <button type="submit" class="btn btn-primary">Guardar</button>

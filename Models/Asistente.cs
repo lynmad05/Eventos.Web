@@ -24,6 +24,10 @@ public class Asistente
     [StringLength(100)]
     public string Correo { get; set; } = string.Empty;
 
+    [StringLength(9, ErrorMessage = "El teléfono admite máximo 9 caracteres.")]
+    [Display(Name = "Teléfono")]
+    public string? Telefono { get; set; }
+
     public bool Activo { get; set; } = true;
 
     public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();

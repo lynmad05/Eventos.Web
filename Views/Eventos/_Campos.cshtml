@@ -33,4 +33,12 @@
         <input asp-for="Precio" class="form-control" />
         <span asp-validation-for="Precio" class="text-danger"></span>
     </div>
+    <div class="col-md-6">
+        <label asp-for="Modalidad" class="form-label"></label>
+        <select asp-for="Modalidad" class="form-select">
+            <option value="Presencial">Presencial</option>
+            <option value="Virtual">Virtual</option>
+        </select>
+        <span asp-validation-for="Modalidad" class="text-danger"></span>
+    </div>
 </div>

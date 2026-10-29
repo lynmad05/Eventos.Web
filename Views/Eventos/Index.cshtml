@@ -21,6 +21,7 @@
             <th>Categoría</th>
             <th>Fecha</th>
             <th>Lugar</th>
+            <th>Modalidad</th>
             <th class="text-end">Precio</th>
             <th class="text-center">Aforo</th>
             <th class="text-center">Inscritos</th>
@@ -37,6 +38,7 @@
             <td>@item.Categoria?.Nombre</td>
             <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
             <td>@item.Lugar</td>
+            <td>@item.Modalidad</td>
             <td class="text-end">S/ @item.Precio.ToString("N2")</td>
             <td class="text-center">@item.Aforo</td>
             <td class="text-center">@inscritos</td>

@@ -48,6 +48,10 @@ namespace Eventos.Web.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Telefono")
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Correo")
@@ -107,6 +111,11 @@ namespace Eventos.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Modalidad")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(10,2)");

@@ -43,10 +43,10 @@ using (var scope = app.Services.CreateScope())
         int Cat(string nombre) => categorias.First(c => c.Nombre == nombre).Id;
 
         context.Eventos.AddRange(
-            new Evento { Titulo = "Conferencia de Inteligencia Artificial", Fecha = DateTime.Today.AddDays(10).AddHours(18), Lugar = "Auditorio TECSUP", Aforo = 150, Precio = 50.00m, CategoriaId = Cat("Tecnología") },
-            new Evento { Titulo = "Taller de Desarrollo Web", Fecha = DateTime.Today.AddDays(15).AddHours(9), Lugar = "Laboratorio 3", Aforo = 30, Precio = 0m, CategoriaId = Cat("Tecnología") },
-            new Evento { Titulo = "Festival de Música Andina", Fecha = DateTime.Today.AddDays(20).AddHours(19), Lugar = "Parque de la Exposición", Aforo = 500, Precio = 35.50m, CategoriaId = Cat("Cultura") },
-            new Evento { Titulo = "Maratón 10K Lima", Fecha = DateTime.Today.AddDays(30).AddHours(7), Lugar = "Costa Verde", Aforo = 1000, Precio = 25.00m, CategoriaId = Cat("Deportes") });
+            new Evento { Titulo = "Conferencia de Inteligencia Artificial", Fecha = DateTime.Today.AddDays(10).AddHours(18), Lugar = "Auditorio TECSUP", Aforo = 150, Precio = 50.00m, Modalidad = "Presencial", CategoriaId = Cat("Tecnología") },
+            new Evento { Titulo = "Taller de Desarrollo Web", Fecha = DateTime.Today.AddDays(15).AddHours(9), Lugar = "Laboratorio 3", Aforo = 30, Precio = 0m, Modalidad = "Presencial", CategoriaId = Cat("Tecnología") },
+            new Evento { Titulo = "Festival de Música Andina", Fecha = DateTime.Today.AddDays(20).AddHours(19), Lugar = "Parque de la Exposición", Aforo = 500, Precio = 35.50m, Modalidad = "Presencial", CategoriaId = Cat("Cultura") },
+            new Evento { Titulo = "Maratón 10K Lima", Fecha = DateTime.Today.AddDays(30).AddHours(7), Lugar = "Costa Verde", Aforo = 1000, Precio = 25.00m, Modalidad = "Presencial", CategoriaId = Cat("Deportes") });
         await context.SaveChangesAsync();
     }
 

@@ -29,6 +29,11 @@ public class Evento
     [Range(0, 99999999.99, ErrorMessage = "El precio no puede ser negativo.")]
     public decimal Precio { get; set; }
 
+    [Required(ErrorMessage = "La modalidad es obligatoria.")]
+    [StringLength(20)]
+    [RegularExpression("^(Presencial|Virtual)$", ErrorMessage = "Seleccione Presencial o Virtual.")]
+    public string Modalidad { get; set; } = "Presencial";
+
     [Display(Name = "Categoría")]
     public int CategoriaId { get; set; }
 
