@@ -1,0 +1,35 @@
+@model IEnumerable<Inscripcion>
+@{ ViewData["Title"] = "Inscripciones"; }
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Inscripciones</h1>
+    <a asp-action="Create" class="btn btn-primary">Nueva inscripción</a>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr><th>Evento</th><th>Asistente</th><th>Fecha</th><th>Estado</th><th></th></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Evento?.Titulo</td>
+            <td>@item.Asistente?.Nombres</td>
+            <td>@item.FechaInscripcion.ToString("dd/MM/yyyy HH:mm")</td>
+            <td>
+                <span class="badge @(item.Estado == "Confirmada" ? "bg-success" : "bg-secondary")">@item.Estado</span>
+            </td>
+            <td class="text-end">
+                @if (item.Estado == "Confirmada")
+                {
+                    <form asp-action="Cancelar" asp-route-id="@item.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('¿Cancelar esta inscripción?');">Cancelar</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

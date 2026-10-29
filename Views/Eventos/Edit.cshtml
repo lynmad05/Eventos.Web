@@ -1,0 +1,16 @@
+@model Evento
+@{ ViewData["Title"] = "Editar evento"; }
+
+<h1 class="h3 mb-3">Editar evento</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Activo" />
+    <partial name="_Campos" />
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
